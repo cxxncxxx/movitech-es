@@ -358,16 +358,28 @@ function renderCatalog(){
  PRODUCTS
   .filter(p => activeCategory==='all' || p.category===activeCategory)
   .sort((a, b) => {
-    const getIphoneNumber = (title) => {
-      const match = title.match(/iPhone\s(\d+)/i);
-      return match ? parseInt(match[1]) : 0;
-    };
+  const getData = (title) => {
+    const match = title.match(/iPhone\s(\d+)/i);
+    const num = match ? parseInt(match[1]) : 0;
 
-    const aNum = getIphoneNumber(a.title);
-    const bNum = getIphoneNumber(b.title);
+    let type = 0; // base
+    if (/pro max/i.test(title)) type = 2;
+    else if (/pro/i.test(title)) type = 1;
 
-    return aNum - bNum; // de menor a mayor (11 → 17)
-  })
+    return { num, type };
+  };
+
+  const aData = getData(a.title);
+  const bData = getData(b.title);
+
+  // primero número (11 → 17)
+  if (aData.num !== bData.num) {
+    return aData.num - bData.num;
+  }
+
+  // después tipo (base → pro → pro max)
+  return aData.type - bData.type;
+})
     .forEach((item, idx) => {
       const card = document.createElement('article'); card.className='card';
       card.dataset.imgs = JSON.stringify(item.images || []);
