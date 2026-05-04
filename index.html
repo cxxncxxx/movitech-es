@@ -454,9 +454,14 @@ function renderCatalog(){
       }
 
       if (/redmi note/i.test(title)) {
-        const num = parseInt(title.match(/Note\s(\d+)/i)?.[1]) || 0;
-        return { brand: 4, line: 1, num, type: 0 };
-      }
+  const num = parseInt(title.match(/Note\s(\d+)/i)?.[1]) || 0;
+
+  let type = 0;
+  if (/pro plus/i.test(title)) type = 2;
+  else if (/pro/i.test(title)) type = 1;
+
+  return { brand: 4, line: 1, num, type };
+}
 
       if (/redmi/i.test(title)) {
         const num = parseInt(title.match(/(\d+)/)?.[1]) || 0;
