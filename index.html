@@ -4,7 +4,7 @@
 <link rel="icon" type="image/png" href="logo-movitech-es.png">
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>MovitechES</title
+<title>MovitechES</title>
 <meta name="description" content="MovitechES. Envío gratis a España. Precios en €." />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -479,17 +479,6 @@ function renderCatalog(){
   return aData.type - bData.type;
 })
 
-  const aData = getData(a.title);
-  const bData = getData(b.title);
-
-  // primero número (11 → 17)
-  if (aData.num !== bData.num) {
-    return aData.num - bData.num;
-  }
-
-  // después tipo (base → pro → pro max)
-  return aData.type - bData.type;
-})
     .forEach((item, idx) => {
       const card = document.createElement('article'); card.className='card';
       card.dataset.imgs = JSON.stringify(item.images || []);
@@ -509,10 +498,10 @@ function renderCatalog(){
               <div class="price">${fmtEUR(item.price)}</div>
             </div>
           </div>
-          <div class="actions">
-            <button class="btn btn-buy" data-action="buy" data-idx="${idx}">Comprar</button>
-            <button class="btn btn-cart" data-action="add" data-idx="${idx}">Agregar al carrito</button>
-          </div>
+         <div class="actions">
+  <button class="btn btn-buy" data-action="buy" data-id="${item.id}">Comprar</button>
+  <button class="btn btn-cart" data-action="add" data-id="${item.id}">Agregar al carrito</button>
+</div>
         </div>
         <div class="thumbs-row" aria-hidden="true"></div>
       `;
@@ -558,19 +547,22 @@ function populateImagesAndThumbs(){
   });
 }
 
-/* attach events to actions */
 function attachCardEvents(){
   document.querySelectorAll('.card .btn').forEach(btn=>{
-    const action = btn.dataset.action; const idx = Number(btn.dataset.idx);
+    const action = btn.dataset.action;
+    const id = btn.dataset.id;
+
     btn.addEventListener('click', (e)=>{
       e.preventDefault();
-      const product = PRODUCTS[idx];
+
+      const product = PRODUCTS.find(p => p.id === id);
+      if(!product) return;
+
       if(action === 'add'){ addToCart(product); }
       if(action === 'buy'){ openBuyModal(product); }
     });
   });
 }
-
 /* ===== Gallery modal ===== */
 const galleryModal = document.getElementById('galleryModal');
 const galleryImage = document.getElementById('galleryImage');
