@@ -398,17 +398,86 @@ function renderCatalog(){
   catalogEl.innerHTML = '';
  PRODUCTS
   .filter(p => activeCategory==='all' || p.category===activeCategory)
-  .sort((a, b) => {
+.sort((a, b) => {
+
   const getData = (title) => {
-    const match = title.match(/iPhone\s(\d+)/i);
-    const num = match ? parseInt(match[1]) : 0;
 
-    let type = 0; // base
-    if (/pro max/i.test(title)) type = 2;
-    else if (/pro/i.test(title)) type = 1;
+    // ===== IPHONE =====
+    if (/iphone/i.test(title)) {
+      const num = parseInt(title.match(/iPhone\s(\d+)/i)?.[1]) || 0;
 
-    return { num, type };
+      let type = 0;
+      if (/pro max/i.test(title)) type = 2;
+      else if (/pro/i.test(title)) type = 1;
+
+      return { brand: 1, line: 0, num, type };
+    }
+
+    // ===== SAMSUNG =====
+    if (/samsung/i.test(title)) {
+
+      if (/galaxy s/i.test(title)) {
+        const num = parseInt(title.match(/S(\d+)/i)?.[1]) || 0;
+        return { brand: 2, line: 0, num, type: 0 };
+      }
+
+      if (/galaxy a/i.test(title)) {
+        const num = parseInt(title.match(/A(\d+)/i)?.[1]) || 0;
+        return { brand: 2, line: 1, num, type: 0 };
+      }
+    }
+
+    // ===== MOTOROLA =====
+    if (/motorola/i.test(title)) {
+
+      if (/moto g/i.test(title)) {
+        const num = parseInt(title.match(/G(\d+)/i)?.[1]) || 0;
+        return { brand: 3, line: 0, num, type: 0 };
+      }
+
+      if (/edge/i.test(title)) {
+        const num = parseInt(title.match(/(\d+)/)?.[1]) || 0;
+        return { brand: 3, line: 1, num, type: 0 };
+      }
+
+      if (/razr/i.test(title)) {
+        return { brand: 3, line: 2, num: 0, type: 0 };
+      }
+    }
+
+    // ===== XIAOMI =====
+    if (/xiaomi|redmi|poco/i.test(title)) {
+
+      if (/poco/i.test(title)) {
+        const num = parseInt(title.match(/X(\d+)/i)?.[1]) || 0;
+        return { brand: 4, line: 0, num, type: 0 };
+      }
+
+      if (/redmi note/i.test(title)) {
+        const num = parseInt(title.match(/Note\s(\d+)/i)?.[1]) || 0;
+        return { brand: 4, line: 1, num, type: 0 };
+      }
+
+      if (/redmi/i.test(title)) {
+        const num = parseInt(title.match(/(\d+)/)?.[1]) || 0;
+        return { brand: 4, line: 2, num, type: 0 };
+      }
+
+      const num = parseInt(title.match(/(\d+)/)?.[1]) || 0;
+      return { brand: 4, line: 3, num, type: 0 };
+    }
+
+    return { brand: 99, line: 99, num: 0, type: 0 };
   };
+
+  const aData = getData(a.title);
+  const bData = getData(b.title);
+
+  if (aData.brand !== bData.brand) return aData.brand - bData.brand;
+  if (aData.line !== bData.line) return aData.line - bData.line;
+  if (aData.num !== bData.num) return aData.num - bData.num;
+  return aData.type - bData.type;
+})
 
   const aData = getData(a.title);
   const bData = getData(b.title);
