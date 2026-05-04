@@ -355,7 +355,19 @@ function escapeHtml(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'
 
 function renderCatalog(){
   catalogEl.innerHTML = '';
-  PRODUCTS.filter(p => activeCategory==='all' || p.category===activeCategory)
+ PRODUCTS
+  .filter(p => activeCategory==='all' || p.category===activeCategory)
+  .sort((a, b) => {
+    const getIphoneNumber = (title) => {
+      const match = title.match(/iPhone\s(\d+)/i);
+      return match ? parseInt(match[1]) : 0;
+    };
+
+    const aNum = getIphoneNumber(a.title);
+    const bNum = getIphoneNumber(b.title);
+
+    return aNum - bNum; // de menor a mayor (11 → 17)
+  })
     .forEach((item, idx) => {
       const card = document.createElement('article'); card.className='card';
       card.dataset.imgs = JSON.stringify(item.images || []);
