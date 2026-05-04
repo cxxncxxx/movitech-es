@@ -385,7 +385,7 @@ function renderCatalog(){
       card.dataset.imgs = JSON.stringify(item.images || []);
       card.dataset.idx = idx;
       card.innerHTML = `
-        <div class="thumb-wrap"><img class="thumb" alt="${escapeHtml(item.title)}" data-idx="${idx}"></div>
+        <div class="thumb-wrap"><img class="thumb" loading="lazy" alt="${escapeHtml(item.title)}" data-idx="${idx}">
         <div class="meta">
           <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
             <div>
