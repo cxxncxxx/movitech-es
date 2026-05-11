@@ -500,7 +500,21 @@ function renderCatalog(){
               <div class="brand">${escapeHtml(item.brand)}</div>
             </div>
             <div style="text-align:right">
-              <div class="price">${fmtEUR(item.price)}</div>
+              ${/iphone/i.test(item.title) ? `
+  <div style="display:flex;flex-direction:column;align-items:flex-end">
+    <div style="font-size:13px;color:#888;text-decoration:line-through">
+      ${fmtEUR(item.price)}
+    </div>
+    <div class="price">
+      ${fmtEUR(item.price * 0.8)}
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#16a34a">
+      -20%
+    </div>
+  </div>
+` : `
+  <div class="price">${fmtEUR(getFinalPrice(item))}</div>
+`}
             </div>
           </div>
          <div class="actions">
@@ -514,6 +528,11 @@ function renderCatalog(){
     });
   populateImagesAndThumbs();
   attachCardEvents();
+}
+  function getFinalPrice(product){
+  return /iphone/i.test(product.title)
+    ? product.price * 0.8
+    : product.price;
 }
 renderCatalog();
 
@@ -603,9 +622,16 @@ function saveCart(){ localStorage.setItem('movitech_cart', JSON.stringify(CART))
 function addToCart(product){
   const existing = CART.find(i=>i.id===product.id);
   if(existing) existing.qty++;
-  else CART.push({ id:product.id, title:product.title, price:product.price, img:(product.images&&product.images[0])||'', qty:1 });
-  saveCart();
-  showToast('Añadido al carrito: ' + product.title);
+else CART.push({
+  id: product.id,
+  title: product.title,
+  price: getFinalPrice(product),
+  img: (product.images && product.images[0]) || '',
+  qty: 1
+});
+
+saveCart();
+showToast('Añadido al carrito: ' + product.title);
 }
 function renderCart(){
   cartItemsEl.innerHTML = '';
@@ -675,7 +701,7 @@ const PUBLIC_KEY = 'RjQA65odlqmPgYN6b';
 function openBuyModal(product){
   currentProduct = product;
   buyProductName.textContent = product.title;
-  buyProductPrice.textContent = fmtEUR(product.price);
+  buyProductPrice.textContent = fmtEUR(getFinalPrice(product));
   document.getElementById('bTimestamp').value = (new Date()).toLocaleString('es-ES');
   document.getElementById('bProductId').value = product.id;
   buyForm.reset();
@@ -725,7 +751,7 @@ buyForm.addEventListener('submit', (e)=>{
       country,
       timestamp,
       product: currentProduct.title,
-      price: fmtEUR(currentProduct.price),
+      pprice: fmtEUR(getFinalPrice(currentProduct)),
       iban: 'IE06 MODR 9903 5507 0916 80',
       titular: 'Bridge Building',
       receipt_base64: base64
