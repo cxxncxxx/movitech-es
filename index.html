@@ -552,21 +552,7 @@ function renderCatalog(){
               <div class="brand">${escapeHtml(item.brand)}</div>
             </div>
             <div style="text-align:right">
-              ${/iphone/i.test(item.title) ? `
-  <div style="display:flex;flex-direction:column;align-items:flex-end">
-    <div style="font-size:13px;color:#888;text-decoration:line-through">
-      ${fmtEUR(item.price)}
-    </div>
-    <div class="price">
-      ${fmtEUR(item.price * 0.8)}
-    </div>
-    <div style="font-size:12px;font-weight:700;color:#16a34a">
-      -20%
-    </div>
-  </div>
-` : `
-  <div class="price">${fmtEUR(getFinalPrice(item))}</div>
-`}
+<div class="price">${fmtEUR(item.price)}</div>
             </div>
           </div>
          <div class="actions">
@@ -581,10 +567,8 @@ function renderCatalog(){
   populateImagesAndThumbs();
   attachCardEvents();
 }
-  function getFinalPrice(product){
-  return /iphone/i.test(product.title)
-    ? product.price * 0.8
-    : product.price;
+function getFinalPrice(product){
+  return product.price;
 }
 renderCatalog();
 
