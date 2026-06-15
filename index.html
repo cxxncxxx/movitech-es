@@ -373,7 +373,22 @@ const PRODUCTS = [
     'https://ae-pic-a1.aliexpress-media.com/kf/E7b80108761cf4c3a8568aeceb10da7f27.jpg_220x220q75.jpg_.avif'
   ]
 },
-  { id:'iphone-15-pro', category:'móviles', brand:'Apple', title:'iPhone 15 Pro 256GB 8GB RAM', price:1100, images:[
+  {
+  id:'i17-promax-pro',
+  category:'móviles',
+  brand:'I17',
+  title:'I17 Promax Pro 4G 5G Dual SIM',
+  price:1100,
+  promoPrice:330,
+  firstBuyerOffer:true,
+  images:[
+    'https://chatgpt.com/backend-api/estuary/content?id=file_00000000bb9c720e95eb2f837a163cf9&ts=494876&p=fs&cid=1&sig=f2222a824ca68f51468dda9630acc8ee3b4d9407a8d341c4d6ccf3ec2396ddbd&v=0',
+    'https://chatgpt.com/backend-api/estuary/content?id=file_00000000b05871f585b51fafb4e074aa&ts=494876&p=fs&cid=1&sig=38e7f6959f87bd7a6e957e5953d8cee3cafac20436710049ce7740de748ee9ac&v=0',
+    'https://chatgpt.com/backend-api/estuary/content?id=file_00000000adf4720e913db492f305fa6c&ts=494877&p=fs&cid=1&sig=c970933d1fb59f0c3792dc5806c7d96762b9592ff181e7248c43213c1e314192&v=0'
+  ]
+},
+  {
+  id:'iphone-15-pro', category:'móviles', brand:'Apple', title:'iPhone 15 Pro 256GB 8GB RAM', price:1100, images:[
     'https://ae-pic-a1.aliexpress-media.com/kf/S40f93b47d7aa420a89cd9c9433dd2a00j.jpg_220x220q75.jpg_.avif',
     'https://ae-pic-a1.aliexpress-media.com/kf/S57b1525a768f44578809b93bcffd5060b.jpg_220x220q75.jpg_.avif'
   ]},
@@ -583,8 +598,38 @@ function renderCatalog(){
               <div class="brand">${escapeHtml(item.brand)}</div>
             </div>
             <div style="text-align:right">
-<div class="price">${fmtEUR(item.price)}</div>
-            </div>
+<div style="text-align:right">
+
+  ${
+    item.firstBuyerOffer &&
+    !localStorage.getItem('promo_' + item.id)
+
+    ?
+
+    `
+      <div style="font-size:13px;color:#999;text-decoration:line-through">
+        ${fmtEUR(item.price)}
+      </div>
+
+      <div class="price">
+        ${fmtEUR(item.promoPrice)}
+      </div>
+
+      <div style="
+        color:#0a8f3d;
+        font-size:12px;
+        font-weight:700;
+      ">
+        🔥 70% DTO. SOLO 1 UNIDAD
+      </div>
+    `
+
+    :
+
+    `<div class="price">${fmtEUR(item.price)}</div>`
+  }
+
+</div>            </div>
           </div>
          <div class="actions">
   <button class="btn btn-buy" data-action="buy" data-id="${item.id}">Comprar</button>
@@ -599,6 +644,14 @@ function renderCatalog(){
   attachCardEvents();
 }
 function getFinalPrice(product){
+
+  if(
+    product.firstBuyerOffer &&
+    !localStorage.getItem('promo_' + product.id)
+  ){
+    return product.promoPrice;
+  }
+
   return product.price;
 }
 renderCatalog();
@@ -829,6 +882,20 @@ window.open(
   `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`,
   '_blank'
 );
+
+/* DESACTIVAR LA PROMOCIÓN DEL I17 */
+if(
+  currentProduct &&
+  currentProduct.firstBuyerOffer &&
+  !localStorage.getItem('promo_' + currentProduct.id)
+){
+  localStorage.setItem(
+    'promo_' + currentProduct.id,
+    'used'
+  );
+
+  renderCatalog(); // actualiza el precio mostrado
+}
 
 if(CART.length > 0){
   CART = [];
