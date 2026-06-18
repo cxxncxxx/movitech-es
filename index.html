@@ -9,10 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#ffffff; --page-bg:#f6f7f9; --text:#111; --muted:#666;
-  --accent:#e60000; /* rojo comprar */
-  --black:#000000;  /* negro carrito */
-  --card-border:#e9e9e9; --max-width:1200px;
+  --bg:#121212;
+  --page-bg:#000000;
+  --text:#ffffff;
+  --muted:#b0b0b0;
+  --accent:#1e90ff; /* azul */
+  --black:#000000;
+  --card-border:#2a2a2a;
+  --max-width:1200px;
   font-family:'Poppins',sans-serif;
 }
 *{box-sizing:border-box}
@@ -20,12 +24,52 @@ html,body{height:100%;margin:0;background:var(--page-bg);color:var(--text);-webk
 a{color:inherit;text-decoration:none}
 
 /* Header */
-header{position:sticky;top:0;background:#fff;z-index:1200;border-bottom:1px solid #f2f2f2}
-.header-inner{max-width:var(--max-width);margin:0 auto;display:flex;align-items:center;gap:16px;padding:12px}
-.logo img{width:150px;height:auto;object-fit:contain}
-.search{flex:1}
-.search input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #eee}
-.header-actions{display:flex;gap:12px;align-items:center}
+header{
+  position:sticky;
+  top:0;
+  background:#0a0a0a;
+  z-index:1200;
+  border-bottom:1px solid #1f1f1f;
+}
+
+.header-inner{
+  max-width:var(--max-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:12px;
+}
+
+.logo img{
+  width:150px;
+  height:auto;
+  object-fit:contain;
+}
+
+.search{
+  flex:1;
+}
+
+.search input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid #2a2a2a;
+  background:#111;
+  color:#fff;
+}
+
+.search input::placeholder{
+  color:#888;
+}
+
+.header-actions{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  color:#fff;
+}
 
 /* Categories nav */
 .cat-nav{max-width:var(--max-width);margin:10px auto;padding:0 16px;display:flex;gap:12px;overflow:auto}
@@ -107,7 +151,7 @@ footer{text-align:center;color:var(--muted);padding:28px 8px;margin-top:18px}
     </div>
     <div class="header-actions">
       <div style="font-weight:700;color:var(--muted)">Precios en € • Envío gratis</div>
-      <button id="openCartBtn" title="Carrito" style="background:transparent;border:1px solid #f0f0f0;padding:8px 10px;border-radius:8px;cursor:pointer">
+      <button id="openCartBtn" title="Carrito" style="background:#111;border:1px solid #2a2a2a;color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer">
         🛒 <span id="cartCount">0</span>
       </button>
     </div>
