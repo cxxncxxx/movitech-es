@@ -753,62 +753,90 @@ let activeSubcategory = 'all';
 function escapeHtml(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 function renderCatalog(){
-  catalogEl.innerHTML = '';
-PRODUCTS
-.filter(p => {
-  
-})
-.sort((a,b)=>{
 
+  catalogEl.innerHTML = '';
+
+  // 1) FUNCIÓN PARA ORDENAR
   const getData = (title) => {
 
+    // TODO: aquí va todo tu código de clasificación
+    // iPhone, Samsung, Motorola, Xiaomi, etc.
+
+    return {
+      brand: 99,
+      line: 99,
+      num: 0,
+      type: 0
+    };
   };
 
-  const aData = getData(a.title);
-  const bData = getData(b.title);
+  // 2) FILTRAR
+  PRODUCTS
+  .filter(p => {
 
-  if (aData.brand !== bData.brand)
+    if(activeCategory !== 'all' && p.category !== activeCategory)
+      return false;
+
+    if(activeCategory !== 'móviles')
+      return true;
+
+    if(activeSubcategory === 'all')
+      return true;
+
+    if(activeSubcategory === 'iphone')
+      return p.brand === 'Apple';
+
+    if(activeSubcategory === 'samsung')
+      return p.brand === 'Samsung';
+
+    if(activeSubcategory === 'motorola')
+      return p.brand === 'Motorola';
+
+    if(activeSubcategory === 'xiaomi')
+      return p.brand === 'Xiaomi';
+
+    if(activeSubcategory === 'th')
+      return p.subcategory === 'th';
+
+    return true;
+
+  })
+
+  // 3) ORDENAR
+  .sort((a,b)=>{
+
+    const aData = getData(a.title);
+    const bData = getData(b.title);
+
+    if (aData.brand !== bData.brand)
       return aData.brand - bData.brand;
 
-  if (aData.line !== bData.line)
+    if (aData.line !== bData.line)
       return aData.line - bData.line;
 
-  if (aData.num !== bData.num)
+    if (aData.num !== bData.num)
       return aData.num - bData.num;
 
-  return aData.type - bData.type;
-})
-.forEach((item,idx)=>{
+    return aData.type - bData.type;
 
-  if(activeCategory !== 'all' && p.category !== activeCategory)
-    return false;
+  })
 
-  if(activeCategory !== 'móviles')
-    return true;
+  // 4) CREAR TARJETAS
+  .forEach((item,idx)=>{
 
-  if(activeSubcategory === 'all')
-    return true;
+    const card = document.createElement('article');
+    card.className = 'card';
 
-  if(activeSubcategory === 'iphone')
-    return p.brand === 'Apple';
+    // tu código de card.innerHTML...
 
-  if(activeSubcategory === 'samsung')
-    return p.brand === 'Samsung';
+    catalogEl.appendChild(card);
 
-  if(activeSubcategory === 'motorola')
-    return p.brand === 'Motorola';
+  });
 
-  if(activeSubcategory === 'xiaomi')
-    return p.brand === 'Xiaomi';
+  populateImagesAndThumbs();
+  attachCardEvents();
 
-  if(activeSubcategory === 'th')
-  return p.subcategory === 'th';
-
-  return true;
-})
-
-  const getData = (title) => {
-
+}
     // ===== IPHONE =====
     if (/iphone/i.test(title)) {
       const num = parseInt(title.match(/iPhone\s(\d+)/i)?.[1]) || 0;
