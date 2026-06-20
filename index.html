@@ -907,61 +907,8 @@ function renderCatalog(){
 
   populateImagesAndThumbs();
   attachCardEvents();
-
 }
-
-<div class="meta">
-          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
-            <div>
-              <div class="title">${escapeHtml(item.title)}</div>
-              <div class="brand">${escapeHtml(item.brand)}</div>
-            </div>
-            <div style="text-align:right">
-<div style="text-align:right">
-
-  ${
-    item.firstBuyerOffer &&
-    !localStorage.getItem('promo_' + item.id)
-
-    ?
-
-    `
-      <div style="font-size:13px;color:#999;text-decoration:line-through">
-        ${fmtEUR(item.price)}
-      </div>
-
-      <div class="price">
-        ${fmtEUR(item.promoPrice)}
-      </div>
-
-      <div style="
-        color:#0a8f3d;
-        font-size:12px;
-        font-weight:700;
-      ">
-        🔥 70% DTO. SOLO 1 UNIDAD
-      </div>
-    `
-
-    :
-
-    `<div class="price">${fmtEUR(item.price)}</div>`
-  }
-
-</div>            </div>
-          </div>
-         <div class="actions">
-  <button class="btn btn-buy" data-action="buy" data-id="${item.id}">Comprar</button>
-  <button class="btn btn-cart" data-action="add" data-id="${item.id}">Agregar al carrito</button>
-</div>
-        </div>
-        <div class="thumbs-row" aria-hidden="true"></div>
-      `;
-      catalogEl.appendChild(card);
-    });
-  populateImagesAndThumbs();
-  attachCardEvents();
-}
+  
 function getFinalPrice(product){
 
   if(
