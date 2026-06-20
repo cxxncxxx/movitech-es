@@ -1214,16 +1214,11 @@ window.addEventListener('keydown', (e)=> {
   }
 });
 
-  const thModal = document.getElementById('thModal');
+const thModal = document.getElementById('thModal');
 const thAcceptBtn = document.getElementById('thAcceptBtn');
 
-function openTHInfo(){
-  thModal.classList.add('show');
-}
-
-function closeTHModal(){
-  thModal.classList.remove('show');
-}
+console.log('thModal:', thModal);
+console.log('thAcceptBtn:', thAcceptBtn);
 
 thAcceptBtn.addEventListener('click', closeTHModal);
 
