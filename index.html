@@ -75,7 +75,58 @@ header{
 .cat-nav{max-width:var(--max-width);margin:10px auto;padding:0 16px;display:flex;gap:12px;overflow:auto}
 .cat-nav button{background:transparent;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--muted)}
 .cat-nav button.active{background:#fff;color:var(--accent);border:1px solid #fdecea;box-shadow:0 6px 18px rgba(0,0,0,0.03)}
+/* Categories nav */
+.cat-nav{
+  max-width:var(--max-width);
+  margin:10px auto;
+  padding:0 16px;
+  display:flex;
+  gap:12px;
+  overflow:auto;
+}
 
+.cat-nav button{
+  background:transparent;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  color:var(--muted);
+}
+
+.cat-nav button.active{
+  background:#fff;
+  color:var(--accent);
+  border:1px solid #fdecea;
+  box-shadow:0 6px 18px rgba(0,0,0,0.03);
+}
+  /* Subcategorías móviles */
+.subcat-nav{
+  max-width:var(--max-width);
+  margin:8px auto;
+  padding:0 16px;
+  display:flex;
+  gap:10px;
+  overflow:auto;
+}
+
+.subcat-nav button{
+  background:#111;
+  color:#fff;
+  border:1px solid #333;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+.subcat-nav button.active{
+  background:var(--accent);
+  border-color:var(--accent);
+}
+  
 /* Layout */
 .main{max-width:var(--max-width);margin:18px auto;padding:0 16px 80px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
@@ -267,7 +318,11 @@ header{
 .modal.show{display:flex}
 .modal-card{width:760px;max-width:96%;background:#fff;border-radius:12px;padding:18px;border:1px solid #ececec;box-shadow:0 18px 40px rgba(0,0,0,0.08);transform:translateY(18px);opacity:0;transition:all .28s ease}
 .modal.show .modal-card{transform:translateY(0);opacity:1}
-.modal-title{font-weight:700;margin-bottom:8px;color:var(--text)}
+.modal-title{
+  font-weight:700;
+  margin-bottom:8px;
+  color:#111;
+}
 .close-x{background:transparent;border:none;font-size:18px;cursor:pointer;color:var(--muted)}
 
 /* Form styles */
@@ -316,7 +371,7 @@ footer{text-align:center;color:var(--muted);padding:28px 8px;margin-top:18px}
     <button data-cat="smartwatchs">Smartwatchs</button>
     <button data-cat="auriculares">Auriculares</button>
     <div class="subcat-nav" id="subcatNav" style="display:none">
-  <button data-sub="all" class="active">Móviles</button>
+  <button data-sub="all" class="active">Todos</button>
   <button data-sub="iphone">iPhone</button>
   <button data-sub="samsung">Samsung</button>
   <button data-sub="motorola">Motorola</button>
@@ -580,6 +635,7 @@ const PRODUCTS = [
   {
   id:'i17-promax-pro',
   category:'móviles',
+  subcategory:'th',
   brand:'I17',
   title:'I17 Promax Pro 4G 5G Dual SIM',
   price:1100,
@@ -693,14 +749,64 @@ function fmtEUR(n){ return new Intl.NumberFormat('es-ES',{style:'currency',curre
 const catalogEl = document.getElementById('catalog');
 const catButtons = document.querySelectorAll('.cat-nav button');
 let activeCategory = 'all';
-
+let activeSubcategory = 'all';
 function escapeHtml(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 function renderCatalog(){
   catalogEl.innerHTML = '';
- PRODUCTS
-  .filter(p => activeCategory==='all' || p.category===activeCategory)
-.sort((a, b) => {
+PRODUCTS
+.filter(p => {
+   ...
+})
+.sort((a,b)=>{
+
+  const getData = (title) => {
+
+     ...
+  };
+
+  const aData = getData(a.title);
+  const bData = getData(b.title);
+
+  if (aData.brand !== bData.brand)
+      return aData.brand - bData.brand;
+
+  if (aData.line !== bData.line)
+      return aData.line - bData.line;
+
+  if (aData.num !== bData.num)
+      return aData.num - bData.num;
+
+  return aData.type - bData.type;
+})
+.forEach((item,idx)=>{
+
+  if(activeCategory !== 'all' && p.category !== activeCategory)
+    return false;
+
+  if(activeCategory !== 'móviles')
+    return true;
+
+  if(activeSubcategory === 'all')
+    return true;
+
+  if(activeSubcategory === 'iphone')
+    return p.brand === 'Apple';
+
+  if(activeSubcategory === 'samsung')
+    return p.brand === 'Samsung';
+
+  if(activeSubcategory === 'motorola')
+    return p.brand === 'Motorola';
+
+  if(activeSubcategory === 'xiaomi')
+    return p.brand === 'Xiaomi';
+
+  if(activeSubcategory === 'th')
+  return p.subcategory === 'th';
+
+  return true;
+})
 
   const getData = (title) => {
 
@@ -863,11 +969,42 @@ renderCatalog();
 /* category nav */
 catButtons.forEach(btn=>{
   btn.addEventListener('click', ()=>{
+
     catButtons.forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
+
     activeCategory = btn.dataset.cat;
+
+    const subNav = document.getElementById('subcatNav');
+
+    if(activeCategory === 'móviles'){
+      subNav.style.display = 'flex';
+    }else{
+      subNav.style.display = 'none';
+      activeSubcategory = 'all';
+    }
+
     renderCatalog();
   });
+});
+
+  document.addEventListener('click',(e)=>{
+
+  if(!e.target.matches('.subcat-nav button')) return;
+
+  document
+    .querySelectorAll('.subcat-nav button')
+    .forEach(btn=>btn.classList.remove('active'));
+
+  e.target.classList.add('active');
+
+  activeSubcategory = e.target.dataset.sub;
+
+  if(activeSubcategory === 'th'){
+    openTHInfo();
+  }
+
+  renderCatalog();
 });
 
 /* populate images & thumbs */
@@ -1120,6 +1257,25 @@ function showToast(msg){
   setTimeout(()=> { t.style.right = '-420px'; }, 3600);
 }
 
+  let activeSubCategory = 'all';
+
+const thModal = document.getElementById('thModal');
+const thAcceptBtn = document.getElementById('thAcceptBtn');
+
+function openTHInfo(){
+  document.getElementById('thModal').classList.add('show');
+}
+  
+thAcceptBtn.addEventListener('click', () => {
+  closeTHModal();
+});
+
+thModal.addEventListener('click', (e)=>{
+  if(e.target === thModal){
+    closeTHModal();
+  }
+});
+
 /* Footer year */
 document.getElementById('yearFooter').textContent = new Date().getFullYear();
 
@@ -1130,7 +1286,44 @@ window.addEventListener('keydown', (e)=> {
     closeCart();
   }
 });
+
+  function openTHInfo(){
+  document
+    .getElementById('thModal')
+    .classList
+    .add('show');
+}
+
+document
+  .getElementById('acceptTH')
+  .addEventListener('click',()=>{
+
+    document
+      .getElementById('thModal')
+      .classList
+      .remove('show');
+
+});
 </script>
+  <!-- Modal TH -->
+<div id="thModal" class="modal" aria-hidden="true">
+  <div class="modal-card" style="max-width:600px;text-align:center">
+    <h2 style="margin-bottom:15px">¿Qué significa un móvil TH?</h2>
+
+    <p style="line-height:1.6;color:#555">
+      Los móviles <strong>TH</strong> son dispositivos que cuentan con
+      componentes orientados al rendimiento, con características que
+      recuerdan a equipos gamer. Suelen incluir una gran cantidad de RAM,
+      amplio almacenamiento interno y un hardware pensado para ofrecer
+      una experiencia fluida en juegos, multitarea y aplicaciones exigentes.
+    </p>
+
+    <button id="thAcceptBtn"
+      style="margin-top:20px;padding:12px 25px;border:none;border-radius:8px;background:#e60000;color:white;font-weight:700;cursor:pointer">
+      OK, entiendo
+    </button>
+  </div>
+</div>
 </body>
 </html>
 
