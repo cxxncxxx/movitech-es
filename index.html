@@ -910,15 +910,6 @@ function renderCatalog(){
 
 }
 
-    .forEach((item, idx) => {
-      const card = document.createElement('article'); card.className='card';
-      card.dataset.imgs = JSON.stringify(item.images || []);
-      card.dataset.idx = idx;
-      card.innerHTML = `
-    <div class="thumb-wrap">
-  <img class="thumb" loading="lazy" alt="${escapeHtml(item.title)}" data-idx="${idx}">
-</div>
-
 <div class="meta">
           <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
             <div>
