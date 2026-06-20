@@ -1214,8 +1214,32 @@ window.addEventListener('keydown', (e)=> {
   }
 });
 
-const thModal = document.getElementById('thModal');
-const thAcceptBtn = document.getElementById('thAcceptBtn');
+window.addEventListener('DOMContentLoaded', () => {
+
+  const thModal = document.getElementById('thModal');
+  const thAcceptBtn = document.getElementById('thAcceptBtn');
+
+  function openTHInfo(){
+    thModal.classList.add('show');
+  }
+
+  function closeTHModal(){
+    thModal.classList.remove('show');
+  }
+
+  if(thAcceptBtn){
+    thAcceptBtn.addEventListener('click', closeTHModal);
+  }
+
+  if(thModal){
+    thModal.addEventListener('click', (e)=>{
+      if(e.target === thModal){
+        closeTHModal();
+      }
+    });
+  }
+
+});
 
 console.log('thModal:', thModal);
 console.log('thAcceptBtn:', thAcceptBtn);
