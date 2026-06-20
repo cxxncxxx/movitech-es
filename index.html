@@ -1203,25 +1203,6 @@ function showToast(msg){
   setTimeout(()=> { t.style.right = '-420px'; }, 3600);
 }
 
-  let activeSubCategory = 'all';
-
-const thModal = document.getElementById('thModal');
-const thAcceptBtn = document.getElementById('thAcceptBtn');
-
-function openTHInfo(){
-  document.getElementById('thModal').classList.add('show');
-}
-  
-thAcceptBtn.addEventListener('click', () => {
-  closeTHModal();
-});
-
-thModal.addEventListener('click', (e)=>{
-  if(e.target === thModal){
-    closeTHModal();
-  }
-});
-
 /* Footer year */
 document.getElementById('yearFooter').textContent = new Date().getFullYear();
 
