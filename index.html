@@ -81,7 +81,6 @@ header{
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
 
 /* Card */
-/* Card */
 .card{
   background:#0a0a0a;
   border:1px solid #222;
@@ -99,7 +98,7 @@ header{
 
 .thumb-wrap{
   padding:12px;
-  background:#000;
+  background:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -178,11 +177,11 @@ header{
 .thumbs-row img{
   width:56px;
   height:40px;
-  object-fit:cover;
+  object-fit:contain;
+  background:#fff;
   border-radius:6px;
   cursor:pointer;
-  border:2px solid transparent;
-  opacity:.95;
+  border:2px solid #fff;
 }
 
 .thumbs-row img.active{
