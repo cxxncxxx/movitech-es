@@ -1287,22 +1287,23 @@ window.addEventListener('keydown', (e)=> {
   }
 });
 
-  function openTHInfo(){
-  document
-    .getElementById('thModal')
-    .classList
-    .add('show');
+  const thModal = document.getElementById('thModal');
+const thAcceptBtn = document.getElementById('thAcceptBtn');
+
+function openTHInfo(){
+  thModal.classList.add('show');
 }
 
-document
-  .getElementById('acceptTH')
-  .addEventListener('click',()=>{
+function closeTHModal(){
+  thModal.classList.remove('show');
+}
 
-    document
-      .getElementById('thModal')
-      .classList
-      .remove('show');
+thAcceptBtn.addEventListener('click', closeTHModal);
 
+thModal.addEventListener('click', (e)=>{
+  if(e.target === thModal){
+    closeTHModal();
+  }
 });
 </script>
   <!-- Modal TH -->
