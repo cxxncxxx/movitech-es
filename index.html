@@ -884,16 +884,89 @@ function renderCatalog(){
   })
 
   // 4) CREAR TARJETAS
-  .forEach((item,idx)=>{
+  .forEach((item)=>{
+
+    const finalPrice = getFinalPrice(item);
+
+    const promo =
+        item.firstBuyerOffer &&
+        !localStorage.getItem('promo_' + item.id);
 
     const card = document.createElement('article');
     card.className = 'card';
 
-    // tu código de card.innerHTML...
+    card.dataset.imgs = JSON.stringify(item.images);
+
+    card.innerHTML = `
+        <div class="thumb-wrap">
+            <img class="thumb" alt="${escapeHtml(item.title)}">
+        </div>
+
+        <div class="meta">
+
+            <div class="brand">
+                ${escapeHtml(item.brand)}
+            </div>
+
+            <div class="title">
+                ${escapeHtml(item.title)}
+            </div>
+
+            ${
+                promo
+                ?
+                `
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="text-decoration:line-through;color:#888;">
+                        ${fmtEUR(item.price)}
+                    </span>
+
+                    <span class="price">
+                        ${fmtEUR(finalPrice)}
+                    </span>
+                </div>
+
+                <div style="
+                    color:#16d66b;
+                    font-size:13px;
+                    font-weight:700;">
+                    🎉 Oferta para el primer comprador
+                </div>
+                `
+                :
+                `
+                <div class="price">
+                    ${fmtEUR(finalPrice)}
+                </div>
+                `
+            }
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-buy"
+                    data-action="buy"
+                    data-id="${item.id}">
+                    Comprar
+                </button>
+
+                <button
+                    class="btn btn-cart"
+                    data-action="add"
+                    data-id="${item.id}">
+                    🛒
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="thumbs-row"></div>
+    `;
 
     catalogEl.appendChild(card);
 
-  });
+});
 
   populateImagesAndThumbs();
   attachCardEvents();
