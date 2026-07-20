@@ -869,6 +869,7 @@ const catalogEl = document.getElementById('catalog');
 const catButtons = document.querySelectorAll('.cat-nav > button, .dropdown-cat > button');
 let activeCategory = 'all';
 let activeSubcategory = 'all';
+let activeSort = 'default';
 function escapeHtml(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 function renderCatalog(){
@@ -986,6 +987,26 @@ function renderCatalog(){
   // 3) ORDENAR
   .sort((a,b)=>{
 
+    // Orden por precio
+if(activeSort === "priceAsc"){
+    return getFinalPrice(a) - getFinalPrice(b);
+}
+
+if(activeSort === "priceDesc"){
+    return getFinalPrice(b) - getFinalPrice(a);
+}
+
+// Orden alfabético
+if(activeSort === "nameAsc"){
+    return a.title.localeCompare(b.title);
+}
+
+if(activeSort === "nameDesc"){
+    return b.title.localeCompare(a.title);
+}
+
+// Si es "default", continúa con el orden inteligente.
+    
     const aData = getData(a.title);
     const bData = getData(b.title);
 
@@ -1142,6 +1163,14 @@ if(activeCategory === "móviles"){
 
   document.querySelectorAll('.subcat-nav button').forEach(btn => {
 
+    document.getElementById("sortSelect").addEventListener("change", function(){
+
+    activeSort = this.value;
+
+    renderCatalog();
+
+});
+    
     btn.addEventListener('click', (e) => {
 
         e.preventDefault();
