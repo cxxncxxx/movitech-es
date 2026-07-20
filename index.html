@@ -101,13 +101,12 @@ header{
   /* Subcategorías móviles */
 .dropdown-cat{
     position:relative;
-    display:flex;
-    align-items:center;
+    display:inline-block;
 }
 
 .subcat-nav{
     position:absolute;
-    top:100%;
+    top:calc(100% + 8px);
     left:0;
 
     display:none;
@@ -122,8 +121,10 @@ header{
     padding:8px;
 
     z-index:9999;
+}
 
-    box-shadow:0 10px 30px rgba(0,0,0,.45);
+.dropdown-cat:hover .subcat-nav{
+    display:flex;
 }
 
 .subcat-nav button{
