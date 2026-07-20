@@ -798,7 +798,7 @@ const PRODUCTS = [
    ========================= */
 function fmtEUR(n){ return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(n); }
 const catalogEl = document.getElementById('catalog');
-const catButtons = document.querySelectorAll('.cat-nav button');
+const catButtons = document.querySelectorAll('.cat-nav > button, .dropdown-cat > button');
 let activeCategory = 'all';
 let activeSubcategory = 'all';
 function escapeHtml(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -1037,46 +1037,34 @@ function getFinalPrice(product){
 renderCatalog();
 
 /* category nav */
-catButtons.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
+catButtons.forEach(btn => {
 
-    catButtons.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
+    btn.addEventListener('click', () => {
 
-    activeCategory = btn.dataset.cat;
+        catButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-    const subNav = document.getElementById('subcatNav');
+        activeCategory = btn.dataset.cat;
 
-    if(activeCategory === 'móviles'){
-      subNav.style.display = 'flex';
-    }else{
-      subNav.style.display = 'none';
-      activeSubcategory = 'all';
-    }
+        // Si cambia a una categoría distinta de Móviles,
+        // reinicia la subcategoría.
+        if (activeCategory !== 'móviles') {
+            activeSubcategory = 'all';
 
-    renderCatalog();
-  });
+            document
+                .querySelectorAll('.subcat-nav button')
+                .forEach(b => b.classList.remove('active'));
+
+            document
+                .querySelector('.subcat-nav button[data-sub="all"]')
+                ?.classList.add('active');
+        }
+
+        renderCatalog();
+
+    });
+
 });
-
-  document.addEventListener('click',(e)=>{
-
-  if(!e.target.matches('.subcat-nav button')) return;
-
-  document
-    .querySelectorAll('.subcat-nav button')
-    .forEach(btn=>btn.classList.remove('active'));
-
-  e.target.classList.add('active');
-
-  activeSubcategory = e.target.dataset.sub;
-
-  if(activeSubcategory === 'th'){
-    openTHInfo();
-  }
-
-  renderCatalog();
-});
-
 /* populate images & thumbs */
 function populateImagesAndThumbs(){
   document.querySelectorAll('.card').forEach(card=>{
