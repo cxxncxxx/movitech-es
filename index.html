@@ -102,13 +102,54 @@ header{
   box-shadow:0 6px 18px rgba(0,0,0,0.03);
 }
   /* Subcategorías móviles */
+.dropdown-cat{
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
 .subcat-nav{
-  max-width:var(--max-width);
-  margin:8px auto;
-  padding:0 16px;
-  display:flex;
-  gap:10px;
-  overflow:auto;
+    position:absolute;
+    top:100%;
+    left:0;
+
+    display:none;
+    flex-direction:column;
+
+    min-width:180px;
+
+    background:#111;
+    border:1px solid #333;
+    border-radius:12px;
+
+    padding:8px;
+
+    z-index:9999;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+.subcat-nav button{
+    width:100%;
+    text-align:left;
+    background:transparent;
+    color:#fff;
+    border:none;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.subcat-nav button:hover{
+    background:#1e90ff;
+}
+
+@media (min-width:901px){
+
+    .dropdown-cat:hover .subcat-nav{
+        display:flex;
+    }
+
 }
 
 .subcat-nav button{
@@ -364,21 +405,34 @@ footer{text-align:center;color:var(--muted);padding:28px 8px;margin-top:18px}
     </div>
   </div>
 
-  <nav class="cat-nav" aria-label="Categorías">
+<nav class="cat-nav" aria-label="Categorías">
+
     <button data-cat="all" class="active">Todos</button>
-    <button data-cat="móviles">Móviles</button>
+
+    <div class="dropdown-cat">
+
+        <button data-cat="móviles" id="mobileBtn">
+            Móviles ▼
+        </button>
+
+        <div class="subcat-nav" id="subcatNav">
+
+            <button data-sub="all" class="active">Todos</button>
+            <button data-sub="iphone">iPhone</button>
+            <button data-sub="samsung">Samsung</button>
+            <button data-sub="motorola">Motorola</button>
+            <button data-sub="xiaomi">Xiaomi</button>
+            <button data-sub="th">TH</button>
+
+        </div>
+
+    </div>
+
     <button data-cat="cargadores">Cargadores</button>
     <button data-cat="smartwatchs">Smartwatchs</button>
     <button data-cat="auriculares">Auriculares</button>
-    <div class="subcat-nav" id="subcatNav" style="display:none">
-  <button data-sub="all" class="active">Todos</button>
-  <button data-sub="iphone">iPhone</button>
-  <button data-sub="samsung">Samsung</button>
-  <button data-sub="motorola">Motorola</button>
-  <button data-sub="xiaomi">Xiaomi</button>
-  <button data-sub="th">TH</button>
-</div>
-  </nav>
+
+</nav>
 </header>
 
 <main class="main">
