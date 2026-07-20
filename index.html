@@ -1051,6 +1051,13 @@ catButtons.forEach(btn => {
 
         activeCategory = btn.dataset.cat;
 
+      const dropdown = document.querySelector(".dropdown-cat");
+
+if(activeCategory === "móviles"){
+    dropdown.classList.toggle("open");
+}else{
+    dropdown.classList.remove("open");
+}
         // Si cambia a una categoría distinta de Móviles,
         // reinicia la subcategoría.
         if (activeCategory !== 'móviles') {
