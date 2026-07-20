@@ -111,7 +111,11 @@ header{
 
     margin-top:6px;
 
-    display:none;
+    display:flex;
+visibility:hidden;
+opacity:0;
+pointer-events:none;
+transition:.2s;
     flex-direction:column;
 
     min-width:180px;
@@ -125,6 +129,13 @@ header{
     z-index:9999;
 }
 
+  .dropdown-cat:hover .subcat-nav,
+.dropdown-cat.open .subcat-nav{
+    visibility:visible;
+    opacity:1;
+    pointer-events:auto;
+}
+  
 .subcat-nav button{
     width:100%;
     text-align:left;
