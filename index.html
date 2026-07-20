@@ -125,11 +125,6 @@ header{
     z-index:9999;
 }
 
-.dropdown-cat:hover .subcat-nav,
-.dropdown-cat .subcat-nav:hover{
-    display:flex;
-}
-
 .subcat-nav button{
     width:100%;
     text-align:left;
@@ -146,10 +141,6 @@ header{
 }
 
 @media (min-width:901px){
-
-    .dropdown-cat:hover .subcat-nav{
-        display:flex;
-    }
 
 }
 
@@ -1038,7 +1029,6 @@ function getFinalPrice(product){
 
   return product.price;
 }
-renderCatalog();
 
 /* category nav */
 catButtons.forEach(btn => {
@@ -1351,19 +1341,7 @@ window.addEventListener('keydown', (e)=> {
   }
 });
 
-const thModal = document.getElementById('thModal');
-const thAcceptBtn = document.getElementById('thAcceptBtn');
-
-console.log('thModal:', thModal);
-console.log('thAcceptBtn:', thAcceptBtn);
-
-thAcceptBtn.addEventListener('click', closeTHModal);
-
-thModal.addEventListener('click', (e)=>{
-  if(e.target === thModal){
-    closeTHModal();
-  }
-});
+renderCatalog();
 </script>
   <!-- Modal TH -->
 <div id="thModal" class="modal" aria-hidden="true">
