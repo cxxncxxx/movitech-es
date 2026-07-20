@@ -1069,6 +1069,27 @@ catButtons.forEach(btn => {
     });
 
 });
+
+  document.querySelectorAll('.subcat-nav button').forEach(btn => {
+
+    btn.addEventListener('click', (e) => {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        document.querySelectorAll('.subcat-nav button')
+            .forEach(b => b.classList.remove('active'));
+
+        btn.classList.add('active');
+
+        activeCategory = 'móviles';
+        activeSubcategory = btn.dataset.sub;
+
+        renderCatalog();
+
+    });
+
+});
 /* populate images & thumbs */
 function populateImagesAndThumbs(){
   document.querySelectorAll('.card').forEach(card=>{
