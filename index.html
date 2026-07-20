@@ -1053,7 +1053,7 @@ catButtons.forEach(btn => {
       const dropdown = document.querySelector(".dropdown-cat");
 
 if(activeCategory === "móviles"){
-    dropdown.classList.toggle("open");
+    dropdown.classList.add("open");
 }else{
     dropdown.classList.remove("open");
 }
@@ -1093,7 +1093,7 @@ if(activeCategory === "móviles"){
         activeSubcategory = btn.dataset.sub;
 
         renderCatalog();
-
+document.querySelector(".dropdown-cat").classList.remove("open");
     });
 
 });
