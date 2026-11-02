@@ -1382,12 +1382,11 @@ buyForm.addEventListener('submit', (e)=>{
     productos += `• ${currentProduct.title} x1 → ${fmtEUR(total)}\n`;
   }
 
-  const mensaje = `🛒 NUEVO PEDIDO MOVITECHES
+const mensaje = `🛒 NUEVO PEDIDO MOVITECHES
 
 Nombre: ${name}
 Email: ${email}
 Teléfono: ${phone}
-
 Provincia: ${province}
 Ciudad: ${city}
 Código Postal: ${postal}
@@ -1399,11 +1398,9 @@ TOTAL A PAGAR: ${fmtEUR(total)}
 
 Espero instrucciones para realizar el pago.`;
 
-  const numeroWhatsApp = '5492352537091';
+const telegramURL = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/brichuurng')}&text=${encodeURIComponent(mensaje)}`;
 
-window.open(
-  `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`,
-  '_blank'
+window.open(telegramURL, '_blank'
 );
 
 /* DESACTIVAR LA PROMOCIÓN DEL I17 */
